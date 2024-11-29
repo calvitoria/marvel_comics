@@ -32,3 +32,6 @@ app/assets/builds/*
 # Ignore the log directory and all log files.
 log/*
 !log/.keep
+
+# ignore credentials at .env
+.env
