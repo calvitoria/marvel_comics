@@ -1,0 +1,34 @@
+<% if @error %>
+  <div>
+    <p><%= @error %></p>
+  </div>
+<% elsif @story %>
+  <div>
+    <div>
+      <h2><%= @story[:title] %></h2>
+      <p><%= @story[:description] %></p>
+
+      <% if @story[:characters].present? %>
+        <h3>Characters:</h3>
+        <div>
+          <% @story[:characters].each do |character| %>
+            <div>
+              <img 
+                src="<%= character[:image] %>" 
+                alt="<%= character[:name] %>" 
+                width="200" height="300"
+              />
+              <p><%= character[:name] %></p>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p>No characters available for this story.</p>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div>
+    <p>Loading story...</p>
+  </div>
+<% end %>
