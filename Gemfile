@@ -40,10 +40,9 @@ gem "thruster", require: false
 # Gem to handle the api credentions located at .env
 gem "dotenv-rails", groups: [ :development, :test ]
 
-# Handle external API calls
 gem "httparty"
-
 gem "interactor"
+gem "view_component"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
