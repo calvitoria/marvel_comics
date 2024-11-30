@@ -11,7 +11,7 @@ class Story
 
     if total_stories.positive?
       context.story = random_story(character_id, total_stories)
-      context.characters = story_characters(context.story["id"])
+      context.characters = characters(context.story["id"])
     else
       context.fail!(error: "No stories found for the character")
     end
@@ -20,15 +20,15 @@ class Story
   private
 
   def total_stories(character_id)
-    @marvel_service.character_stories(character_id)["total"]
+    @marvel_service.total_stories(character_id)["total"]
   end
 
   def random_story(character_id, stories_count)
     random_index = rand(0..stories_count)
-    @marvel_service.character_stories(character_id, offset: random_index)["results"]&.first
+    result = @marvel_service.story_by_id(character_id, offset: random_index)["results"]&.first
   end
 
-  def story_characters(story_id)
-    @marvel_service.story_characters(story_id)
+  def characters(story_id)
+    characters = @marvel_service.story_characters(story_id)
   end
 end

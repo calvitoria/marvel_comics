@@ -1,5 +1,13 @@
 <div>
-  <p>
-    <%= @character %>
-  </p>
+  <h1>HISTÓRIA</h1>
+  <pre>
+    <%= JSON.pretty_generate(@story).html_safe %>
+  </pre>
+</div>
+<hr>
+<div>
+  <h1>PERSONAGENS DA HISTÓRIA</h1>
+  <pre>
+    <%= JSON.pretty_generate(@story_characters).html_safe %>
+  </pre>
 </div>
