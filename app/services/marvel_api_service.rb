@@ -9,12 +9,18 @@ class MarvelApiService
   end
 
   def character_details(name)
-    url = "https://gateway.marvel.com/v1/public/characters"
     params = @auth_params.merge({ name: name })
     response = HTTParty.get(url, query: params)
     body = response.body
-  
-    JSON.parse(body)['data']['results']
+
+    JSON.parse(body)["data"]["results"]
+  end
+
+  def story_by_id(resource_uri)
+    response = HTTParty.get(resource_uri, query: @auth_params)
+    body = response.body
+
+    JSON.parse(body)["data"]["results"]
   end
 
   private
