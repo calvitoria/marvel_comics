@@ -17,19 +17,6 @@ class MarvelApiService
     characters({stories: story_id})
   end
 
-  def character_stories(character_id, offset = nil)
-    stories_url = "#{BASE_URL_CHARACTERS}/#{character_id}/stories"
-    params = @auth_params.merge({ limit: 1 })
-    params[:offset] = offset if offset
-
-    response = HTTParty.get(stories_url, query: params)
-    body = response.body
-
-    byebug
-
-    JSON.parse(body)["data"]
-  end
-
   def total_stories(character_id, offset: 0)
     stories(character_id, offset: offset)
   end

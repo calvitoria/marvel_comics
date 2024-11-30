@@ -25,10 +25,10 @@ class Story
 
   def random_story(character_id, stories_count)
     random_index = rand(0..stories_count)
-    result = @marvel_service.story_by_id(character_id, offset: random_index)["results"]&.first
+    @marvel_service.story_by_id(character_id, offset: random_index)["results"]&.first
   end
 
   def characters(story_id)
-    characters = @marvel_service.story_characters(story_id)
+    @marvel_service.story_characters(story_id)
   end
 end
