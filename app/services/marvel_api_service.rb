@@ -3,46 +3,57 @@ require "digest"
 
 class MarvelApiService
   include HTTParty
-  BASE_URL_CHARACTERS = "https://gateway.marvel.com/v1/public/characters"
+  BASE_URL = "https://gateway.marvel.com/v1/public"
 
   def initialize
     @auth_params = generate_auth_params
   end
 
-  def character_details(character_name)
-    characters({name: character_name})
-  end
+  def random_story(character_name)
+    character = get_character(character_name)
+    return "No character found" unless character
 
-  def story_characters(story_id)
-    characters({stories: story_id})
-  end
+    total_stories = character[:total_stories]
+    return "No stories found" if total_stories.zero?
 
-  def total_stories(character_id, offset: 0)
-    stories(character_id, offset: offset)
-  end
-
-  def story_by_id(character_id, offset: 0)
-    stories(character_id, offset: offset)
+    random_offset = rand(0..total_stories)
+    get_story(character[:id], random_offset)
   end
 
   private
 
-  def characters(query_param)
-    params = @auth_params.merge(query_param)
-    response = HTTParty.get(BASE_URL_CHARACTERS, query: params)
-    body = response.body
+  def get_character(name)
+    params = @auth_params.merge({name: name})
+    response = HTTParty.get("#{BASE_URL}/characters", query: params)
 
-    JSON.parse(body)["data"]["results"]
+    return nil unless response.success?
+
+    character_details = JSON.parse(response.body)["data"]["results"]&.first
+    
+    if character_details
+      {
+        id: character_details['id'],
+        name: character_details['name'],
+        total_stories: character_details['stories']['available']
+      }
+    end
   end
 
-  def stories(character_id, offset:)
-    stories_url = "#{BASE_URL_CHARACTERS}/#{character_id}/stories"
+  def get_story(character_id, offset)
     params = @auth_params.merge({ limit: 1, offset: offset })
 
-    response = HTTParty.get(stories_url, query: params)
-    body = response.body
+    response = HTTParty.get("#{BASE_URL}/characters/#{character_id}/stories", query: params)
+    return nil unless response.success?
 
-    JSON.parse(body)["data"]
+    story_details = JSON.parse(response.body)["data"]["results"]&.first
+    
+    if story_details
+      {
+        title: story_details['title'],
+        description: story_details['description'],
+        characters: story_details['characters']['items']
+      }
+    end
   end
 
   def generate_auth_params
