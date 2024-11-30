@@ -4,24 +4,24 @@ require "digest"
 class MarvelApiService
   include HTTParty
   BASE_URL_CHARACTERS = "https://gateway.marvel.com/v1/public/characters"
-  
+
   def initialize
     @auth_params = generate_auth_params
   end
 
-  def character_details(name)
-    params = @auth_params.merge({ name: name })
-    response = HTTParty.get(BASE_URL_CHARACTERS, query: params)
-    body = response.body
+  def character_details(character_name)
+    characters({name: character_name})
+  end
 
-    JSON.parse(body)["data"]["results"]
+  def story_characters(story_id)
+    characters({stories: story_id})
   end
 
   def character_stories(character_id, offset = nil)
     stories_url = "#{BASE_URL_CHARACTERS}/#{character_id}/stories"
     params = @auth_params.merge({ limit: 1 })
     params[:offset] = offset if offset
-  
+
     response = HTTParty.get(stories_url, query: params)
     body = response.body
 
@@ -29,6 +29,14 @@ class MarvelApiService
   end
 
   private
+
+  def characters(query_param)
+    params = @auth_params.merge(query_param)
+    response = HTTParty.get(BASE_URL_CHARACTERS, query: params)
+    body = response.body
+
+    JSON.parse(body)["data"]["results"]
+  end
 
   def generate_auth_params
     ts = Time.now.to_i.to_s

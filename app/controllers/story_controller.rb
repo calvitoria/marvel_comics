@@ -3,7 +3,9 @@ class StoryController < ApplicationController
     marvel_service = MarvelApiService.new
 
     @character = marvel_service.character_details("storm")
-    result = Story.call(character_id: @character.first['id'])
+    result = Story.call(character_id: @character.first["id"])
+
+    byebug
     @character_stories = result.stories
   end
 end
