@@ -36,6 +36,10 @@
       </section>
     </aside> -->
   </div>
-<% else %>
-  <p>Loading story...</p>
+<% end %>
+
+<% if @error.present? %>
+  <div class="flex align-center justify-center">
+    <h3><%= @error %></h3>
+  </div>
 <% end %>

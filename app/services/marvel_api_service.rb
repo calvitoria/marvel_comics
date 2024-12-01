@@ -11,27 +11,33 @@ class MarvelApiService
 
   def character(name)
     params = @auth_params.merge({ name: name })
+
     response = HTTParty.get("#{BASE_URL}/characters", query: params)
+    results = JSON.parse(response.body)["data"]["results"]
 
-    return nil unless response.success?
+    return nil if results.empty?
 
-    JSON.parse(response.body)["data"]["results"]&.first
+    results&.first
   end
 
   def stories(character_id, limit: 1, offset: 0)
     params = @auth_params.merge({ limit: limit, offset: offset })
+
     response = HTTParty.get("#{BASE_URL}/characters/#{character_id}/stories", query: params)
+    results = JSON.parse(response.body)["data"]["results"]
 
-    return nil unless response.success?
+    return nil if results.empty?
 
-    JSON.parse(response.body)["data"]["results"]
+    results
   end
 
   def character_by_uri(resource_uri)
     response = HTTParty.get(resource_uri, query: @auth_params)
-    return nil unless response.success?
+    results = JSON.parse(response.body)["data"]["results"]
 
-    JSON.parse(response.body)["data"]["results"]&.first
+    return nil if results.empty?
+
+    results&.first
   end
 
   private

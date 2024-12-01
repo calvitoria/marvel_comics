@@ -10,7 +10,7 @@ class Story
     character_data = @marvel_service.character(character_name)
 
     if character_data.nil?
-      context.fail!(error: "No character found with name #{character_name}")
+      context.fail!(error: "No character found with name '#{character_name}'")
     else
       context.story = fetch_random_story(character_data)
     end
@@ -21,8 +21,8 @@ class Story
   def fetch_random_story(character_data)
     total_stories = character_data["stories"]["available"]
 
-    if total_stories.zero?
-      return { error: "No stories found for #{character_data['name']}" }
+    if total_stories.nil? || total_stories.zero?
+      context.fail!(error: "No stories found for #{character_data['name']}")
     end
 
     random_offset = rand(0..total_stories)
