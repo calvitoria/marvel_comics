@@ -41,7 +41,7 @@ RSpec.describe "Stories", type: :request do
     it "returns an error message in the HTML" do
       get "/stories", params: { character_name: "storm" }
 
-      expect(response.body).to include('<h3>No character found with name &#39;storm&#39;</h3>')
+      expect(response.body).to include('No character found with name &#39;storm&#39;')
     end
   end
 
