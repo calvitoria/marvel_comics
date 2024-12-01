@@ -1,5 +1,10 @@
 {
   "devDependencies": {
-    "daisyui": "^4.12.14"
+    "daisyui": "^4.12.14",
+    "tailwindcss": "^3.4.15"
+  },
+  "scripts": {
+    "build": "tailwindcss -o ./app/assets/builds/application.css",
+    "start": "rails s"
   }
 }
