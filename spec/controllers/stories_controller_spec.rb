@@ -64,18 +64,7 @@ RSpec.describe StoriesController, type: :controller do
 
       it 'returns an error message and assigns the error' do
         get :index
-        expect(assigns(:error)).to eq("No character found with name storm")
-      end
-    end
-
-    context 'when character data is not found' do
-      before do
-        allow(mock_service).to receive(:character).with("storm").and_return(nil)
-      end
-
-      it 'returns an error message and assigns the error' do
-        get :index
-        expect(assigns(:error)).to eq("No character found with name storm")
+        expect(assigns(:error)).to eq("No character found with name 'storm'")
       end
     end
   end

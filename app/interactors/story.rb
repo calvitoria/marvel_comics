@@ -9,8 +9,8 @@ class Story
     character_name = context.character_name
     character_data = @marvel_service.character(character_name)
 
-    if character_data.nil? 
-      context.fail!(error: "No character found with name #{character_name}")
+    if character_data.nil?
+      context.fail!(error: "No character found with name '#{character_name}'")
     else
       context.story = fetch_random_story(character_data)
     end
