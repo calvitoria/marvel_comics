@@ -12,6 +12,7 @@ class Story
     if character_data.nil?
       context.fail!(error: "No character found with name '#{character_name}'")
     else
+      context.favorite_character = character_data
       context.story = fetch_random_story(character_data)
     end
   end
