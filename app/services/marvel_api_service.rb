@@ -11,7 +11,7 @@ class MarvelApiService
 
   def character(name)
     params = @auth_params.merge({ name: name })
-  
+
     response = HTTParty.get("#{BASE_URL}/characters", query: params)
     results = JSON.parse(response.body)["data"]["results"]
 
@@ -22,7 +22,7 @@ class MarvelApiService
 
   def stories(character_id, limit: 1, offset: 0)
     params = @auth_params.merge({ limit: limit, offset: offset })
-    
+
     response = HTTParty.get("#{BASE_URL}/characters/#{character_id}/stories", query: params)
     results = JSON.parse(response.body)["data"]["results"]
 

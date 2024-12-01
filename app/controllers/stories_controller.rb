@@ -1,6 +1,7 @@
 class StoriesController < ApplicationController
   def index
-    result = Story.call(character_name: "storm")
+    default_character = "storm"
+    result = Story.call(character_name: default_character)
 
     if result.success?
       @story = result.story
