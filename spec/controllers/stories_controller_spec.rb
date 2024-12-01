@@ -18,7 +18,7 @@ RSpec.describe StoriesController, type: :controller do
   end
 
   let(:story_data) do
-    [{
+    [ {
       "title" => 'Fake Story',
       "description" => 'This is a fake story',
       "characters" => {
@@ -26,7 +26,7 @@ RSpec.describe StoriesController, type: :controller do
           { "resourceURI" => "https://example.com/api/character/1", "name" => "Storm" }
         ]
       }
-    }]
+    } ]
   end
 
   before do

@@ -1,6 +1,6 @@
 class StoriesController < ApplicationController
   def index
-    character_name = params[:character_name].presence || 'Storm'
+    character_name = params[:character_name].presence || "Storm"
     result = Story.call(character_name: character_name)
 
     if result.success?
