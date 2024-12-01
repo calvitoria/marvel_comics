@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="dracula">
+<html>
   <head>
     <title><%= content_for(:title) || "Marvel Comics" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -18,15 +18,16 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag  "tailwind", "https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css", "data-turbo-track": "reload" %>
 
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen flex flex-col font-mono">
-    <header class="bg-[#ee171f] p-4 mb-14">
+  <body class="min-h-screen flex flex-col font-mono bg-zinc-800 text-slate-300">
+    <header class="p-4 mb-14 bg-[#ee171f]">
       <div class="flex justify-center">
         <%= image_tag 'marvel_logo.png', alt: 'Marvel Logo', class: 'h-16' %>
       </div>
@@ -36,8 +37,10 @@
       <%= yield %>
     </main>
     
-    <footer class="footer footer-center bg-base-300 text-base-content p-4">
-      <p>Data provided by Marvel. &copy; <%= Time.now.year %> MARVEL</p>
-    </footer>
+  <footer class="flex justify-center items-center bg-zinc-900 p-4">
+    <p class="text-white text-center">
+      Data provided by Marvel. &copy; <%= Time.now.year %> MARVEL
+    </p>
+  </footer>
   </body>
 </html>
