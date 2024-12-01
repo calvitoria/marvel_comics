@@ -18,11 +18,29 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="min-h-screen flex flex-col font-mono bg-zinc-800 text-slate-300">
+    <header class="p-4 mb-14 bg-[#ee171f]">
+      <div class="flex justify-center">
+        <%= image_tag 'marvel_logo.png', alt: 'Marvel Logo', class: 'h-16' %>
+      </div>
+    </header>
+  
+    <main class="flex-grow mx-48">
+      <%= yield %>
+    </main>
+    
+  <footer class="flex justify-center items-center bg-zinc-900 p-4">
+    <p class="text-white text-center">
+      Data provided by Marvel. &copy; <%= Time.now.year %> MARVEL
+    </p>
+  </footer>
   </body>
 </html>

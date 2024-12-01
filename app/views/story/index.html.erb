@@ -1,34 +1,41 @@
-<% if @error %>
-  <div>
-    <p><%= @error %></p>
-  </div>
-<% elsif @story %>
-  <div>
-    <div>
-      <h2><%= @story[:title] %></h2>
-      <p><%= @story[:description] %></p>
+<% if @story %>
+  <div class="flex gap-14">
+    <!-- <article class="w-2/3 pr-8"> -->
+    <article class="">
+      <header class="mb-8">
+        <h2 class="text-5xl mb-4"><%= @story[:title] %></h2>
+        <p class="w-fit"><%= @story[:description] %></p>
+      </header>
 
       <% if @story[:characters].present? %>
-        <h3>Characters:</h3>
-        <div>
-          <% @story[:characters].each do |character| %>
-            <div>
-              <img 
-                src="<%= character[:image] %>" 
-                alt="<%= character[:name] %>" 
-                width="200" height="300"
-              />
-              <p><%= character[:name] %></p>
-            </div>
-          <% end %>
-        </div>
+        <section class="w-full mb-14">
+          <h3 class="text-stone-400 text-base">Featured Characters</h3>
+          <ul class="flex gap-6 flex-wrap ">
+            <% @story[:characters].each do |character| %>
+              <li class="w-fit">
+                <%= render(CharacterComponent.new(name: character[:name], image: character[:image])) %>
+              </li>
+            <% end %>
+          </ul>
+        </section>
       <% else %>
         <p>No characters available for this story.</p>
       <% end %>
-    </div>
+    </article>
+
+    <!-- <aside class="w-1/3 bg-stone-800 mt-20 mb-14">
+      <section class="mt-6">
+        <form action="/search" method="get" class="flex gap-2">
+          <input type="text" name="character" placeholder="Search another character" class="border border-gray-300 p-2 rounded" />
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+        </form>
+      </section>
+
+      <section class="mt-6">
+        <button onclick="window.location.href='/random_story'" class="bg-green-500 text-white px-6 py-3 rounded">Show Random Story</button>
+      </section>
+    </aside> -->
   </div>
 <% else %>
-  <div>
-    <p>Loading story...</p>
-  </div>
+  <p>Loading story...</p>
 <% end %>
