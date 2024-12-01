@@ -1,4 +1,4 @@
-# Marvel Comics Project 🦸🏼🧾
+# Marvel Comics App 🦸🏼🧾
 
 This Rails project uses the Marvel API to display character data and other related information. The frontend is styled with Tailwind CSS, and the app is primarily tested using RSpec.
 
