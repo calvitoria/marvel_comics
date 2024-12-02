@@ -34,7 +34,7 @@ To set up the project, follow these steps:
 
 2. You can use the `make` command to automate setup, configuration, and running the app:
     ```bash
-    make server
+    make setup
 
     ```
 
