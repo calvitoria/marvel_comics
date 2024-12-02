@@ -10,34 +10,56 @@ class MarvelApiService
   end
 
   def character(name)
-    params = @auth_params.merge({ name: name })
+    cache_key = "character_#{name}"
 
-    response = HTTParty.get("#{BASE_URL}/characters", query: params)
-    results = JSON.parse(response.body)["data"]["results"]
+    result = Rails.cache.fetch(cache_key, expires_in: 2.hours) do
+      params = @auth_params.merge({ name: name })
+      response = HTTParty.get("#{BASE_URL}/characters", query: params)
+      results = JSON.parse(response.body)["data"]["results"]
 
-    return nil if results.empty?
+      if results.present?
+        Rails.cache.write(cache_key, results&.first)
+      end
 
-    results&.first
+      results&.first
+    end
+
+    result
   end
 
   def stories(character_id, limit: 1, offset: 0)
-    params = @auth_params.merge({ limit: limit, offset: offset })
+    cache_key = "stories_#{character_id}_limit_#{limit}_offset_#{offset}"
 
-    response = HTTParty.get("#{BASE_URL}/characters/#{character_id}/stories", query: params)
-    results = JSON.parse(response.body)["data"]["results"]
+    result = Rails.cache.fetch(cache_key, expires_in: 2.hours) do
+      params = @auth_params.merge({ limit: limit, offset: offset })
+      response = HTTParty.get("#{BASE_URL}/characters/#{character_id}/stories", query: params)
+      results = JSON.parse(response.body)["data"]["results"]
 
-    return nil if results.empty?
+      if results.present?
+        Rails.cache.write(cache_key, results)
+      end
 
-    results
+      results
+    end
+
+    result
   end
 
   def character_by_uri(resource_uri)
-    response = HTTParty.get(resource_uri, query: @auth_params)
-    results = JSON.parse(response.body)["data"]["results"]
+    cache_key = "character_by_uri_#{Digest::MD5.hexdigest(resource_uri)}"
 
-    return nil if results.empty?
+    result = Rails.cache.fetch(cache_key, expires_in: 2.hours) do
+      response = HTTParty.get(resource_uri, query: @auth_params)
+      results = JSON.parse(response.body)["data"]["results"]
 
-    results&.first
+      if results.present?
+        Rails.cache.write(cache_key, results&.first)
+      end
+
+      results&.first
+    end
+
+    result
   end
 
   private
