@@ -44,9 +44,6 @@ To set up the project, follow these steps:
     # Install required gems
     bundle install
 
-    # Install JavaScript dependencies
-    yarn install
-
     # Run redis
     redis-server
 

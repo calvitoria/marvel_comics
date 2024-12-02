@@ -16,13 +16,6 @@ setup:
 	@echo ""
 
 	@echo "============================"
-	@echo " Installing npm Packages... "
-	@echo "============================"
-	@echo ""
-	npm install
-	@echo ""
-
-	@echo "============================"
 	@echo " Starting Redis Service... "
 	@echo "============================"
 	@echo ""
