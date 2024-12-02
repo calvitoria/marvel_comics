@@ -20,6 +20,7 @@ Ensure you have the following installed before setting up the project:
 
 - Ruby 3.3.5
 - Rails 8.0.0
+- Redis
 
 ## Setup
 
@@ -46,8 +47,8 @@ To set up the project, follow these steps:
     # Install JavaScript dependencies
     yarn install
 
-    # Set up the database
-    bin/rails db:create db:migrate
+    # Run redis
+    redis-server
 
     # Precompile assets
     bin/rails assets:precompile

@@ -23,6 +23,13 @@ setup:
 	@echo ""
 
 	@echo "============================"
+	@echo " Starting Redis Service... "
+	@echo "============================"
+	@echo ""
+	redis-server --daemonize yes
+	@echo ""
+
+	@echo "============================"
 	@echo " Precompiling Assets... "
 	@echo "============================"
 	@echo ""
@@ -33,5 +40,4 @@ setup:
 	@echo " Starting Rails Server...."
 	@echo "============================="
 	@echo ""
-
 	rails server
