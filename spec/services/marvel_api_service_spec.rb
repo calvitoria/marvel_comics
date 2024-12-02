@@ -42,18 +42,18 @@ RSpec.describe MarvelApiService, type: :service do
 
   describe "#stories" do
     it "returns story data for a valid character ID" do
-      stories = service.stories(character_id)
-      expect(stories).to be_present
-      expect(stories.first["title"]).to eq("Iron Man Story")
+      story = service.stories(character_id)
+      expect(story).to be_present
+      expect(story["title"]).to eq("Iron Man Story")
     end
 
-    it "returns nil when no stories are found" do
+    it "returns nil when no story is found" do
       stub_request(:get, "https://gateway.marvel.com/v1/public/characters/#{character_id}/stories")
         .with(query: hash_including(apikey: public_key))
         .to_return(status: 200, body: '{"data":{"results":[]}}', headers: {})
 
-      stories = service.stories(character_id)
-      expect(stories).to be_nil
+      story = service.stories(character_id)
+      expect(story).to be_nil
     end
   end
 

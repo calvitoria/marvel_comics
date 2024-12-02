@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe StoriesController, type: :controller do
   let(:mock_service) { double('MarvelApiService') }
-  let(:mock_auth_params) { { ts: '1', apikey: 'mock_public_key', hash: 'mock_hash' } }
 
   let(:character_data) do
     {
@@ -18,7 +17,7 @@ RSpec.describe StoriesController, type: :controller do
   end
 
   let(:story_data) do
-    [ {
+    {
       "title" => 'Fake Story',
       "description" => 'This is a fake story',
       "characters" => {
@@ -26,12 +25,11 @@ RSpec.describe StoriesController, type: :controller do
           { "resourceURI" => "https://example.com/api/character/1", "name" => "Storm" }
         ]
       }
-    } ]
+    }
   end
 
   before do
     allow(MarvelApiService).to receive(:new).and_return(mock_service)
-    allow_any_instance_of(MarvelApiService).to receive(:generate_auth_params).and_return(mock_auth_params)
 
     allow(mock_service).to receive(:character).with("storm").and_return(character_data)
     allow(mock_service).to receive(:character).with("Storm").and_return(character_data)
@@ -43,9 +41,9 @@ RSpec.describe StoriesController, type: :controller do
   end
 
   describe 'GET #index' do
-    context 'when the character data and stories are found' do
+    context 'when the character data and story are found' do
       it 'returns a successful response and assigns the story and favorite_character' do
-        get :index
+        get :index, params: { character_name: "Storm" }
 
         expect(response).to have_http_status(:success)
 
@@ -71,9 +69,23 @@ RSpec.describe StoriesController, type: :controller do
       end
 
       it 'returns an error message and assigns the error' do
-        get :index
+        get :index, params: { character_name: "Storm" }
+
         expect(response).to have_http_status(:success)
-        expect(assigns(:error)).to eq("No stories found for Storm")
+        expect(assigns(:error)).to eq("No stories found")
+      end
+    end
+
+    context 'when no character is found' do
+      before do
+        allow(mock_service).to receive(:character).and_return(nil)
+      end
+
+      it 'returns an error message when no character data is found' do
+        get :index, params: { character_name: "UnknownCharacter" }
+
+        expect(response).to have_http_status(:success)
+        expect(assigns(:error)).to eq("No stories found for UnknownCharacter")
       end
     end
   end
