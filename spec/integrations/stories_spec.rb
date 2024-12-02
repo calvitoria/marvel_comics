@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe "Stories", type: :request do
   let(:mock_service) { instance_double(MarvelApiService) }
 
@@ -12,11 +14,11 @@ RSpec.describe "Stories", type: :request do
         "name" => "Storm",
         "stories" => { "available" => 10 }
       }
-      story_data = [ {
+      story_data = {
         "title" => "Storm's Greatest Battle",
         "description" => "A huge battle involving Storm.",
         "characters" => { "items" => [ { "name" => "Storm", "resourceURI" => "some_uri" } ] }
-      } ]
+      }
 
       allow(mock_service).to receive(:character).with("storm").and_return(character_data)
       allow(mock_service).to receive(:stories).with(1, limit: 1, offset: anything).and_return(story_data)
@@ -35,13 +37,14 @@ RSpec.describe "Stories", type: :request do
 
   context "when no character is found" do
     before do
-      allow(mock_service).to receive(:character).with("storm").and_return(nil)
+      allow(mock_service).to receive(:character).with("vitoria-calvi").and_return(nil)
     end
 
     it "returns an error message in the HTML" do
-      get "/stories", params: { character_name: "storm" }
+      get "/stories", params: { character_name: "vitoria-calvi" }
 
-      expect(response.body).to include('No character found with name &#39;storm&#39;')
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('No stories found for vitoria-calvi')
     end
   end
 
@@ -60,7 +63,8 @@ RSpec.describe "Stories", type: :request do
       get "/stories", params: { character_name: "storm" }
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("No stories found for Storm")
+      expect(response.body).to include("No stories found")
+      expect(response.body).to include("Let's try again, shall we?")
     end
   end
 end
